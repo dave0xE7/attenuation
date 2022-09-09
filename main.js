@@ -20,15 +20,34 @@ function Archimedes() {
     ctx.stroke();
 }
 
+
+function BinaryStyle(light) {
+    if (light) {
+        ctx.strokeStyle = "rgba(0.1, 0.1, 0.1, 0.8)";
+        // ctx.fillStyle = "rgba(0.1, 0.1, 0.1, 0.8)";
+        ctx.fillStyle = "#000";
+    } else {
+        ctx.strokeStyle = "rgba(0.1, 0.1, 0.1, 0.4)";
+        // ctx.fillStyle = "rgba(0.1, 0.1, 0.1, 0.4)";
+        ctx.fillStyle = "#FFF";
+    }
+}
+
+function NumberStyle(n) {
+    BinaryStyle(Math.floor(n/2) == (n/2));
+}
+
 function MainDrawing() {
 
     let cx = canvas.width / 2;
     let cy = canvas.height / 2;
 
+
+    let c = parseInt(inputValues["c"]);
+
     // let n = 10;
     /* let n = inputValues["a"];
     let m = inputValues["b"];
-    let c = inputValues["c"];
     let mm = m / 2;
 
     for (let i = 0; i < n; i++) {
@@ -54,7 +73,8 @@ function MainDrawing() {
     let innerRadius = parseInt(inputValues["innerRadius"]);
     let outerRadius = parseInt(inputValues["outerRadius"]);
     
-    let ringSpaces = Math.floor(Math.floor(outerRadius - innerRadius) / rings);
+    // let ringSpaces = Math.floor(Math.floor(outerRadius - innerRadius) / rings);
+    let ringSpaces = Math.floor(outerRadius - innerRadius) / rings;
     let sliceAngles = (2 * Math.PI) / slices;
 
     console.log("ringSpaces="+ringSpaces);
@@ -91,20 +111,21 @@ function MainDrawing() {
         let ringsRadius = innerRadius + (i * ringSpaces);
         
         for (let j = 0; j < slices; j++) {
-            if (Math.floor(j/2) == (j/2)) {
-                ctx.strokeStyle = "rgba(0.1, 0.1, 0.1, 0.8)";
-                ctx.fillStyle = "rgba(0.1, 0.1, 0.1, 0.8)";
-            } else {
-                ctx.strokeStyle = "rgba(0.1, 0.1, 0.1, 0.4)";
-                ctx.fillStyle = "rgba(0.1, 0.1, 0.1, 0.4)";
-            }
+            // if (Math.floor(j/2) == (j/2)) {
+            //     ctx.strokeStyle = "rgba(0.1, 0.1, 0.1, 0.8)";
+            //     ctx.fillStyle = "rgba(0.1, 0.1, 0.1, 0.8)";
+            // } else {
+            //     ctx.strokeStyle = "rgba(0.1, 0.1, 0.1, 0.4)";
+            //     ctx.fillStyle = "rgba(0.1, 0.1, 0.1, 0.4)";
+            // }
+            NumberStyle((j*(c*0.1))+i);
 
             ctx.moveTo(cx,cy)
             ctx.beginPath();
             
             ctx.arc(cx, cy, ringsRadius, j * sliceAngles, j * sliceAngles + sliceAngles);
-            ctx.closePath();
-            ctx.arc(cx, cy, ringsRadius + ringSpaces, j * sliceAngles, j * sliceAngles + sliceAngles);
+            // ctx.closePath();
+            ctx.arc(cx, cy, ringsRadius + ringSpaces, j * sliceAngles + sliceAngles, j * sliceAngles, true);
             // ctx.lineTo(cx,cy);
             ctx.closePath();
             ctx.stroke();
